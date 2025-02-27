@@ -12,6 +12,9 @@
             background-color: #f5f7fa;
             color: #333;
             line-height: 1.6;
+            min-height: 100vh; /* Ensure body takes full viewport height */
+            display: flex;
+            flex-direction: column;
         }
         header {
             background-color: #2c3e50;
@@ -46,6 +49,7 @@
             max-width: 800px;
             margin: 2rem auto;
             padding: 0 1rem;
+            flex: 1 0 auto; /* Push footer to bottom if content is short */
         }
         .section {
             background-color: white;
@@ -78,13 +82,11 @@
             white-space: pre-wrap;
         }
         .footer {
-            text-align: center;
-            padding: 1rem;
             background-color: #34495e;
             color: white;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
+            text-align: center;
+            padding: 1rem;
+            margin-top: auto; /* Push footer to bottom of content */
             box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
         }
         .footer a {
