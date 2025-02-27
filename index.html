@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synqy Bot User Guide - How to Use Synqy</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        header {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        nav {
+            background-color: #34495e;
+            padding: 1rem;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+        nav a:hover {
+            color: #e74c3c;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .section {
+            background-color: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .section h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .command {
+            background-color: #f1f1f1;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            color: #333;
+        }
+        .csv-example {
+            background-color: #f1f1f1;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            color: #333;
+            white-space: pre-wrap;
+        }
+        .footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: #34495e;
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .footer a {
+            color: #e74c3c;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Synqy Bot User Guide</h1>
+    </header>
+    <nav>
+        <a href="#getting-started">Getting Started</a>
+        <a href="#commands">Commands</a>
+        <a href="#admin">Admin Tools</a>
+        <a href="#support">Support</a>
+    </nav>
+    <div class="container">
+        <div class="section" id="getting-started">
+            <h2>Getting Started with Synqy</h2>
+            <p>Welcome to Synqy, your Discord bot for seamless product purchases, queue management, and community fun! Follow these steps to get started:</p>
+            <ul>
+                <li><strong>Configure Settings:</strong> Server admins can set shipping rates and timers using `/set-shipping-rates` and `/set-givvy-timer`.</li>
+                <li><strong>Start Using Commands:</strong> Check out the commands below to buy products, manage tabs, and view queues.</li>
+            </ul>
+        </div>
+        <div class="section" id="commands">
+            <h2>Common User Commands</h2>
+            <p>These commands are available to all users in servers where Synqy is invited:</p>
+            <div class="command">/buy <product_id> - Add items to your tab by selecting a product via autocomplete.</div>
+            <p><strong>Example:</strong> Type `/buy` and select `mtg_2x2_jpcb` to buy it, then confirm the quantity in the interactive menu.</p>
+            <div class="command">/tabs - View your current tab (purchase total) in the server.</div>
+            <p><strong>Output:</strong> Shows your total owed, e.g., “Your tab is $60.00.”</p>
+            <div class="command">/list-products - List all available products and their prices.</div>
+            <p><strong>Output:</strong> Shows products like “- `mtg_2x2_jpcb`: $60.00”.</p>
+            <div class="command">/search-product <query> - Search for products by name or part of the name.</div>
+            <p><strong>Example:</strong> `/search-product mtg` lists Magic: The Gathering products.</p>
+            <div class="command">/queue - View the current buy queue (admin-only, but useful for users to know).</div>
+            <p><strong>Output:</strong> Displays queued purchases, e.g., “- @User purchased 1x `mtg_2x2_jpcb` (ID: <UUID>).”</p>
+        </div>
+        <div class="section" id="admin">
+            <h2>Admin-Only Commands</h2>
+            <p>Server administrators can use these commands to manage Synqy:</p>
+            <div class="command">/load-data <csv_file> - Load product data from a CSV file with columns 'Product' and 'Price' (requires Administrator).</div>
+            <p><strong>Example:</strong> Upload a CSV with the following format to add products:</p>
+            <div class="csv-example">
+                Product,Price
+                mtg_2x2_jpcb,60.00
+                mtg_blb_jp,22.00
+                poke_prismatic_etb,100.00
+            </div>
+            <p><strong>Notes:</strong> Save your CSV file (e.g., `products.csv`) and upload it using the Discord attachment feature with this command.</p>
+            <div class="command">/remove-product <name> - Remove a product by name (requires Administrator).</div>
+            <p><strong>Example:</strong> `/remove-product mtg_2x2_jpcb` removes that product.</p>
+            <div class="command">/remove-from-queue <item_id> - Remove an item from the queue by ID (requires Administrator).</div>
+            <p><strong>Example:</strong> `/remove-from-queue 1` removes item ID 1, adjusting the user’s tab.</p>
+            <div class="command">/move-in-queue <item_id> <new_position> - Move an item to a new position in the queue (requires Administrator).</div>
+            <p><strong>Example:</strong> `/move-in-queue 1 2` moves item 1 to position 2.</p>
+            <div class="command">/process-queue - Process the next item in the buy queue (requires Administrator).</div>
+            <p><strong>Output:</strong> Notifies the user and moves to the next in queue, e.g., “Processed queue item for User! 1x `mtg_2x2_jpcb`.”</p>
+            <div class="command">/set-shipping-rates <limit> <cost> - Set shipping limits and costs for the server (requires Administrator).</div>
+            <p><strong>Example:</strong> `/set-shipping-rates 50 5` sets a $50 limit and $5 cost.</p>
+            <div class="command">/set-givvy-timer <minutes> - Set the givvy timer for voice channel giveaways (requires Administrator).</div>
+            <p><strong>Example:</strong> `/set-givvy-timer 30` sets a 30-minute timer.</p>
+        </div>
+        <div class="section" id="support">
+            <h2>Support and Resources</h2>
+            <p>Need help? Here’s how to get support:</p>
+            <ul>
+                <li><strong>Contact Us:</strong> Email us at <a href="mailto:synqysell@gmail.com">synqysell@gmail.com</a> or message Synqy#1234 on Discord.</li>
+                <li><strong>Terms of Service:</strong> Review our <a href="https://tos.synqysell.com">Terms of Service</a>.</li>
+                <li><strong>Privacy Policy:</strong> Check our <a href="https://privacy.synqysell.com">Privacy Policy</a>.</li>
+            </ul>
+        </div>
+    </div>
+    <footer class="footer">
+        <p>© 2025 Synqy. All rights reserved. | <a href="https://tos.synqysell.com">Terms of Service</a> | <a href="https://privacy.synqysell.com">Privacy Policy</a></p>
+    </footer>
+</body>
+</html>
