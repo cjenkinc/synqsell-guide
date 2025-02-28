@@ -18,7 +18,7 @@
             font-family: 'Inter', 'Arial', sans-serif; /* Modern, clean font */
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #1a2330, #2a3b50), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="2000" height="2000"><defs><radialGradient id="cosmic" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:%239933ff;stop-opacity:0.2"/><stop offset="40%" style="stop-color:%23ffcc00;stop-opacity:0.15"/><stop offset="100%" style="stop-color:%231a2330;stop-opacity:0"/></radialGradient><linearGradient id="swirl" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%234ecdc4;stop-opacity:0.1"/><stop offset="50%" style="stop-color:%23b366ff;stop-opacity:0.2"/><stop offset="100%" style="stop-color:%23ffcc00;stop-opacity:0.1"/></linearGradient></defs><rect width="100%" height="100%" fill="url(#cosmic)"/><path d="M500 200 Q700 50 900 200 T1300 300 Q1500 350 1700 300 T2000 250 M300 400 Q500 250 700 400 T1100 500 Q1300 550 1500 500 T1800 450" fill="none" stroke="url(#swirl)" stroke-width="2" opacity="0.3"/><path d="M200 600 Q400 450 600 600 T1000 700 Q1200 750 1400 700 T1800 650" fill="none" stroke="url(#swirl)" stroke-width="2" opacity="0.3"/><path d="M600 800 Q800 650 1000 800 T1400 900 Q1600 950 1800 900" fill="none" stroke="url(#swirl)" stroke-width="2" opacity="0.3"/><circle cx="250" cy="300" r="2" fill="%23e0e6f0" opacity="0.6"/><circle cx="750" cy="150" r="1.5" fill="%23ffcc00" opacity="0.5"/><circle cx="1200" cy="400" r="2.5" fill="%23b366ff" opacity="0.7"/><circle cx="400" cy="600" r="1.8" fill="%23e0e6f0" opacity="0.6"/><circle cx="1600" cy="200" r="2.2" fill="%23ffcc00" opacity="0.7"/></svg>') no-repeat center center fixed;
+            background: linear-gradient(135deg, #1a2330, #2a3b50), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="2000" height="2000"><defs><radialGradient id="cosmic" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:%239933ff;stop-opacity:0.2"/><stop offset="40%" style="stop-color:%23ffcc00;stop-opacity:0.15"/><stop offset="100%" style="stop-color:%231a2330;stop-opacity:0"/></radialGradient><linearGradient id="swirl" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%234ecdc4;stop-opacity:0.1"/><stop offset="50%" style="stop-color:%23b366ff;stop-opacity:0.2"/><stop offset="100%" style="stop-color:%23ffcc00;stop-opacity:0.1"/></linearGradient></defs><rect width="100%" height="100%" fill="url(#cosmic)"/><path d="M500 200 Q700 50 900 200 T1300 300 Q1500 350 1700 300 T2000 250" fill="none" stroke="url(#swirl)" stroke-width="2" opacity="0.3"/><path d="M200 600 Q400 450 600 600 T1000 700 Q1200 750 1400 700 T1800 650" fill="none" stroke="url(#swirl)" stroke-width="2" opacity="0.3"/><path d="M600 800 Q800 650 1000 800 T1400 900 Q1600 950 1800 900" fill="none" stroke="url(#swirl)" stroke-width="2" opacity="0.3"/><circle cx="250" cy="300" r="2" fill="%23e0e6f0" opacity="0.6"/><circle cx="750" cy="150" r="1.5" fill="%23ffcc00" opacity="0.5"/><circle cx="1200" cy="400" r="2.5" fill="%23b366ff" opacity="0.7"/><circle cx="400" cy="600" r="1.8" fill="%23e0e6f0" opacity="0.6"/><circle cx="1600" cy="200" r="2.2" fill="%23ffcc00" opacity="0.7"/></svg>') no-repeat center center fixed;
             background-size: cover;
             color: var(--text-light);
             line-height: 1.6;
@@ -94,7 +94,7 @@
 
         .container {
             max-width: 900px;
-            margin: 2.5rem auto; /* Added top margin for equal spacing */
+            margin: 2.5rem auto; /* Consistent top margin for equal spacing */
             padding: 0 1.5rem;
             flex: 1 0 auto;
             background: rgba(42, 59, 80, 0.95); /* Semi-transparent overlay for content readability */
@@ -193,6 +193,19 @@
             transform: scale(1.1);
         }
 
+        /* Smooth Scrolling for Navigation */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        nav a {
+            cursor: pointer;
+        }
+
+        nav a[href^="#"]:not([href="#"]) {
+            scroll-margin-top: 7rem; /* Adjusted offset for sticky header (5.5rem nav + 1.5rem header padding, fine-tuned to 7rem/112px) */
+        }
+
         /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -240,6 +253,7 @@
             * {
                 animation: none !important;
                 transition: none !important;
+                scroll-behavior: auto; /* Disable smooth scrolling for accessibility */
             }
         }
 
@@ -276,11 +290,36 @@
             .footer a, .section a {
                 font-size: 0.9rem; /* Slightly smaller links on mobile for readability */
             }
+
+            nav a[href^="#"]:not([href="#"]) {
+                scroll-margin-top: 5.5rem; /* Adjusted offset for mobile (4.5rem nav + 1rem header padding, fine-tuned to 5.5rem/88px) */
+            }
         }
 
         /* Google Fonts */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Orbitron:wght@400;700&family=Fira+Code:wght@400;700&display=swap');
     </style>
+    <script>
+        // Smooth scroll with precise offset for sticky header
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        const headerHeight = document.querySelector('header').offsetHeight; // Dynamic header height
+                        const navHeight = document.querySelector('nav').offsetHeight; // Dynamic nav height
+                        const offset = targetElement.getBoundingClientRect().top + window.scrollY - (headerHeight + navHeight); // Precise offset
+                        window.scrollTo({
+                            top: offset,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 <body>
     <header>
@@ -289,7 +328,7 @@
     <nav>
         <a href="#getting-started">Getting Started</a>
         <a href="#commands">Commands</a>
-        <a href="#admin">Admin Tools</a>
+        <a href="#admin-only-commands">Admin-Only Commands</a>
         <a href="#support">Support</a>
     </nav>
     <div class="container">
@@ -324,7 +363,7 @@
             <div class="command">/queue - View the current buy queue (admin-only, but useful for users to know).</div>
             <p><strong>Output:</strong> Displays queued purchases, e.g., “- @User purchased 1x `mtg_2x2_jpcb` (ID: <UUID>).”</p>
         </div>
-        <div class="section" id="admin">
+        <div class="section" id="admin-only-commands">
             <h2>Admin-Only Commands</h2>
             <p>Server administrators can use these commands to manage Synqy:</p>
             <div class="command">/load-data <csv_file> - Load product data from a CSV file with columns 'Product' and 'Price' (requires Administrator).</div>
