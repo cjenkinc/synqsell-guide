@@ -5,97 +5,271 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Synqy Bot User Guide - How to Use Synqy</title>
     <style>
+        :root {
+            --primary-dark: #1a2330;
+            --secondary-dark: #2a3b50;
+            --accent-neon: #4ecdc4;
+            --text-light: #e0e6f0;
+            --text-muted: #a0b0c0;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Inter', 'Arial', sans-serif; /* Modern, clean font */
             margin: 0;
             padding: 0;
-            background-color: #f5f7fa;
-            color: #333;
+            background-color: var(--primary-dark);
+            color: var(--text-light);
             line-height: 1.6;
-            min-height: 100vh; /* Ensure body takes full viewport height */
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
+            overflow-x: hidden;
         }
+
         header {
-            background-color: #2c3e50;
-            color: white;
+            background: linear-gradient(135deg, #2a3b50, #1a2330);
+            color: var(--text-light);
             text-align: center;
-            padding: 2rem 0;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 2.5rem 0;
+            box-shadow: 0 5px 15px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000; /* Keep header fixed at top */
+            animation: fadeInSlideDown 1s ease-in forwards;
         }
+
         header h1 {
-            font-size: 2.5rem;
+            font-size: 3rem;
             margin: 0;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            font-family: 'Orbitron', sans-serif; /* Futuristic font for title */
+            animation: none; /* Remove animation to prevent movement */
         }
+
         nav {
-            background-color: #34495e;
-            padding: 1rem;
+            background-color: var(--secondary-dark);
+            padding: 1.5rem;
             text-align: center;
+            box-shadow: 0 2px 10px var(--shadow);
+            position: sticky;
+            top: 5.5rem; /* Below header */
+            z-index: 999;
+            animation: slideIn 1s ease-out forwards;
         }
+
         nav a {
-            color: white;
+            color: var(--text-light);
             text-decoration: none;
-            margin: 0 1rem;
-            font-size: 1.1rem;
-            transition: color 0.3s ease;
+            margin: 0 1.5rem;
+            font-size: 1.2rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+            position: relative;
         }
+
         nav a:hover {
-            color: #e74c3c;
+            color: var(--accent-neon);
+            transform: scale(1.1);
         }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent-neon);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
         .container {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-            flex: 1 0 auto; /* Push footer to bottom if content is short */
+            max-width: 900px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+            flex: 1 0 auto;
+            animation: fadeIn 1.5s ease-in forwards;
         }
+
         .section {
-            background-color: white;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: var(--secondary-dark);
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: slideUp 1s ease-out forwards;
         }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px var(--shadow);
+        }
+
         .section h2 {
-            color: #2c3e50;
-            border-bottom: 2px solid #e74c3c;
-            padding-bottom: 0.5rem;
-            margin-bottom: 1rem;
+            color: var(--accent-neon);
+            border-bottom: 3px solid var(--accent-neon);
+            padding-bottom: 0.8rem;
+            margin-bottom: 1.5rem;
+            font-family: 'Orbitron', sans-serif;
+            animation: none; /* Remove animation to prevent movement */
         }
+
         .command {
-            background-color: #f1f1f1;
-            padding: 1rem;
-            border-radius: 5px;
-            margin: 1rem 0;
-            font-family: 'Courier New', monospace;
-            color: #333;
+            background-color: #3a4b60;
+            padding: 1.2rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            font-family: 'Fira Code', monospace; /* Modern monospace for code */
+            color: var(--text-light);
+            border-left: 5px solid var(--accent-neon);
+            transition: background-color 0.3s ease;
+            animation: fadeInLeft 1s ease-out forwards;
         }
+
+        .command:hover {
+            background-color: #4a5b70;
+        }
+
         .csv-example {
-            background-color: #f1f1f1;
-            padding: 1rem;
-            border-radius: 5px;
-            margin: 1rem 0;
-            font-family: 'Courier New', monospace;
-            color: #333;
+            background-color: #3a4b60;
+            padding: 1.2rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            font-family: 'Fira Code', monospace;
+            color: var(--text-light);
+            border-left: 5px solid var(--accent-neon);
             white-space: pre-wrap;
+            transition: background-color 0.3s ease;
+            animation: fadeInRight 1s ease-out forwards;
         }
+
+        .csv-example:hover {
+            background-color: #4a5b70;
+        }
+
         .footer {
-            background-color: #34495e;
-            color: white;
+            background: linear-gradient(135deg, #2a3b50, #1a2330);
+            color: var(--text-light);
             text-align: center;
-            padding: 1rem;
-            margin-top: auto; /* Push footer to bottom of content */
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-top: auto;
+            box-shadow: 0 -5px 15px var(--shadow);
+            animation: fadeInSlideUp 1s ease-in forwards;
         }
+
         .footer a {
-            color: #e74c3c;
+            color: #00ffcc; /* Even brighter neon turquoise for maximum visibility */
             text-decoration: none;
+            transition: color 0.3s ease, transform 0.3s ease;
+            font-weight: bold; /* Add bold for emphasis */
         }
+
         .footer a:hover {
-            text-decoration: underline;
+            color: #80ffd4; /* Brighter on hover for contrast, maintaining neon theme */
+            transform: scale(1.1);
         }
+
+        .section a {
+            color: #00ffcc; /* Match footer link color for consistency in "Support and Resources" */
+            text-decoration: none;
+            transition: color 0.3s ease, transform 0.3s ease;
+            font-weight: bold; /* Add bold for emphasis */
+        }
+
+        .section a:hover {
+            color: #80ffd4; /* Brighter on hover for contrast */
+            transform: scale(1.1);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInSlideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInSlideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-100%); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Accessibility for reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.2rem;
+            }
+
+            nav {
+                padding: 1rem;
+                top: 4.5rem;
+            }
+
+            nav a {
+                margin: 0 1rem;
+                font-size: 1rem;
+            }
+
+            .container {
+                margin: 1.5rem auto;
+                padding: 0 1rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .command, .csv-example {
+                padding: 1rem;
+            }
+
+            .footer a, .section a {
+                font-size: 0.9rem; /* Slightly smaller links on mobile for readability */
+            }
+        }
+
+        /* Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Orbitron:wght@400;700&family=Fira+Code:wght@400;700&display=swap');
     </style>
 </head>
 <body>
