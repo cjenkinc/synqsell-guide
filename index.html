@@ -408,7 +408,7 @@
         <div class="section" id="admin-only-commands">
             <h2>Admin-Only Commands</h2>
             <p>Server administrators can use these commands to manage Synqy:</p>
-            <div class="command">/load-data <csv_file> - Load product data from a CSV file with columns 'Product' and 'Price' (requires Administrator).</div>
+            <div class="command">/load-products <csv_file> - Load product data from a CSV file with columns 'Product' and 'Price' (requires Administrator).</div>
             <p><strong>Example:</strong> Upload a CSV with the following format to add products:</p>
             <div class="csv-example">
                 Product,Price
@@ -426,6 +426,8 @@
             <p><strong>Example:</strong> `/add-product "Magic Card" 24.99` or `/add-product "Magic Card" $24.99` adds a product named “Magic Card” with a price of $24.99 (or the server’s currency).</p>
             <div class="command">/remove-product <name> - Remove a product by name (requires Administrator).</div>
             <p><strong>Example:</strong> `/remove-product mtg_2x2_jpcb` removes that product. The price will display with the server’s currency symbol (e.g., “$60.00” for USD or “€60.00” for EUR).</p>
+            <div class="command">/clear-products <name> - Remove all products from your guild (requires Administrator).</div>
+            <p><strong>Example:</strong> `/clear-products` removes the products.</p>
             <div class="command">/remove-from-queue <item_id> - Remove an item from the queue by ID (requires Administrator).</div>
             <p><strong>Example:</strong> `/remove-from-queue 1` removes item ID 1, adjusting the user’s tab. The price adjustment will display with the server’s currency symbol (e.g., “$60.00” for USD or “€60.00” for EUR).</p>
             <div class="command">/move-in-queue <item_id> <new_position> - Move an item to a new position in the queue (requires Administrator).</div>
