@@ -376,6 +376,7 @@
             <p>Welcome to Synqy, your Discord bot for seamless product purchases, queue management, and community fun! Follow these steps to get started:</p>
             <ul>
                 <li><strong>Interact with Synqy:</strong> You can interact with Synqy using slash commands (e.g., `/buy`, `/tabs`) or by mentioning it with `@Synqy` in text channels to trigger responses or commands. Ensure Synqy has the necessary permissions (View Channels, Send Messages) to respond.</li>
+                <li><strong>Configure Currency:</strong> By default, Synqy uses USD (U.S. dollars, symbol: $) for all pricing and shipping. Server admins must set a different currency if needed using the `/set-product-currency` command (e.g., `/set-product-currency EUR` for Euros, symbol: €).</li>
                 <li><strong>Configure Settings:</strong> Server admins can set shipping rates using `/set-shipping-rates`.</li>
                 <li><strong>Start Using Commands:</strong> Check out the commands below to buy products, manage tabs, and view queues.</li>
             </ul>
@@ -384,7 +385,7 @@
             <h2>Common User Commands</h2>
             <p>These commands are available to all users in servers where Synqy is invited:</p>
             <div class="command">/buy <product_id> - Add items to your tab by selecting a product via autocomplete.</div>
-            <p><strong>Example:</strong> Type `/buy` and select `mtg_2x2_jpcb` to buy it, then confirm the quantity in the interactive menu.</p>
+            <p><strong>Example:</strong> Type `/buy` and select a product UUID to buy it, then confirm the quantity in the interactive menu. The price will display with the server’s set currency symbol (e.g., “$60.00” for USD or “€60.00” for EUR).</p>
             <div class="command">/tabs [all] - View your current tab (purchase total) or all tabs in the server.</div>
             <p><strong>Parameter:</strong></p>
             <ul>
@@ -392,15 +393,17 @@
             </ul>
             <p><strong>Examples:</strong></p>
             <ul>
-                <li>`/tabs` - Shows your individual tab: “Your tab is $60.00.”</li>
-                <li>`/tabs true` - Shows all tabs in the server (admin-only): “Tabs in this server: @User1 ($60.00), @User2 ($30.00).”</li>
+                <li>`/tabs` - Shows your individual tab: “Your tab is $60.00.” (or the server’s currency symbol, e.g., “€60.00” for EUR).</li>
+                <li>`/tabs true` - Shows all tabs in the server (admin-only): “Tabs in this server: @User1 ($60.00), @User2 (£30.00).” (or the server’s currency symbols).</li>
             </ul>
             <div class="command">/list-products - List all available products and their prices.</div>
-            <p><strong>Output:</strong> Shows products like “- `mtg_2x2_jpcb`: $60.00”.</p>
+            <p><strong>Output:</strong> Shows products like “- `Product Name`: $60.00” (or the server’s currency symbol, e.g., “- `Product Name`: €60.00” for EUR).</p>
             <div class="command">/search-product <query> - Search for products by name or part of the name.</div>
-            <p><strong>Example:</strong> `/search-product mtg` lists Magic: The Gathering products.</p>
+            <p><strong>Example:</strong> `/search-product mtg` lists Magic: The Gathering products with prices in the server’s currency (e.g., “`mtg_2x2_jpcb`: $60.00” or “`mtg_2x2_jpcb`: €60.00”).</p>
             <div class="command">/queue - View the current buy queue (admin-only, but useful for users to know).</div>
-            <p><strong>Output:</strong> Displays queued purchases, e.g., “- @User purchased 1x `mtg_2x2_jpcb` (ID: <UUID>).”</p>
+            <p><strong>Output:</strong> Displays queued purchases, e.g., “- @User purchased 1x `Product Name` ($60.00, ID: <UUID>).” (or the server’s currency symbol, e.g., “€60.00” for EUR).</p>
+            <div class="command">/leaderboard - View the leaderboard for the top spenders.</div>
+            <p><strong>Output:</strong> Displays top spenders, e.g., “- @User1: $60.00” (or the server’s currency symbol, e.g., “- @User1: €60.00” for EUR).</p>
         </div>
         <div class="section" id="admin-only-commands">
             <h2>Admin-Only Commands</h2>
@@ -413,25 +416,54 @@
                 mtg_blb_jp,22.00
                 poke_prismatic_etb,100.00
             </div>
-            <p><strong>Notes:</strong> Save your CSV file (e.g., `products.csv`) and upload it using the Discord attachment feature with this command.</p>
+            <p><strong>Notes:</strong> Save your CSV file (e.g., `products.csv`) and upload it using the Discord attachment feature with this command. Prices in the CSV are assumed in the server’s set currency (default $ for USD unless changed).</p>
+            <div class="command">/add-product <name> <price> - Add a product to the product list (requires Administrator).</div>
+            <p><strong>Parameters:</strong></p>
+            <ul>
+                <li><strong>name:</strong> The name of the product.</li>
+                <li><strong>price:</strong> The price of the product (e.g., $24.99, €24.99, £24.99, or 24.99).</li>
+            </ul>
+            <p><strong>Example:</strong> `/add-product "Magic Card" 24.99` or `/add-product "Magic Card" $24.99` adds a product named “Magic Card” with a price of $24.99 (or the server’s currency).</p>
             <div class="command">/remove-product <name> - Remove a product by name (requires Administrator).</div>
-            <p><strong>Example:</strong> `/remove-product mtg_2x2_jpcb` removes that product.</p>
+            <p><strong>Example:</strong> `/remove-product mtg_2x2_jpcb` removes that product. The price will display with the server’s currency symbol (e.g., “$60.00” for USD or “€60.00” for EUR).</p>
             <div class="command">/remove-from-queue <item_id> - Remove an item from the queue by ID (requires Administrator).</div>
-            <p><strong>Example:</strong> `/remove-from-queue 1` removes item ID 1, adjusting the user’s tab.</p>
+            <p><strong>Example:</strong> `/remove-from-queue 1` removes item ID 1, adjusting the user’s tab. The price adjustment will display with the server’s currency symbol (e.g., “$60.00” for USD or “€60.00” for EUR).</p>
             <div class="command">/move-in-queue <item_id> <new_position> - Move an item to a new position in the queue (requires Administrator).</div>
-            <p><strong>Example:</strong> `/move-in-queue 1 2` moves item 1 to position 2.</p>
+            <p><strong>Example:</strong> `/move-in-queue 1 2` moves item 1 to position 2. The price will display with the server’s currency symbol (e.g., “$60.00” for USD or “€60.00” for EUR).</p>
             <div class="command">/process-queue - Process the next item in the buy queue (requires Administrator).</div>
-            <p><strong>Output:</strong> Notifies the user and moves to the next in queue, e.g., “Processed queue item for User! 1x `mtg_2x2_jpcb`.”</p>
+            <p><strong>Output:</strong> Notifies the user and moves to the next in queue, e.g., “Processed queue item for User! 1x `Product Name` ($60.00).” (or the server’s currency symbol, e.g., “€60.00” for EUR).</p>
             <div class="command">/set-shipping-rates <limit> <cost> - Set shipping limits and costs for the server (requires Administrator).</div>
-            <p><strong>Example:</strong> `/set-shipping-rates 50 5` sets a $50 limit and $5 cost.</p>
+            <p><strong>Example:</strong> `/set-shipping-rates 50 5` sets a $50 limit and $5 cost (or the server’s currency symbols, e.g., “€50.00” and “€5.00” for EUR).</p>
+            <div class="command">/set-product-currency <currency> - Set the currency for product pricing in this server (requires Administrator).</div>
+            <p><strong>Parameter:</strong></p>
+            <ul>
+                <li><strong>currency (e.g., USD, EUR, GBP, JPY, CAD):</strong> The ISO 4217 currency code to use for prices and shipping (e.g., “USD” for U.S. dollars, symbol: $, “EUR” for Euros, symbol: €). Use the autocomplete feature to select from supported currencies (e.g., USD, EUR, GBP, JPY, CAD).</li>
+            </ul>
+            <p><strong>Example:</strong> Type `/set-product-currency` and select “EUR” from the autocomplete dropdown to set the currency to Euros (symbol: €) for this server.</p>
+            <p><strong>Notes:</strong> Valid currencies are suggested via autocomplete (e.g., USD, EUR, GBP, JPY, CAD; expand as needed). Prices will display with the selected currency’s symbol (e.g., “€60.00” instead of “$60.00 USD”). The default currency is USD (symbol: $).</p>
             <div class="command">/start-givvy - Start a giveaway in the current voice channel (requires Administrator and voice channel presence).</div>
             <p><strong>Notes:</strong> This is an admin-only command. You must be in a voice channel to use this command. Initiates a giveaway timer, notifying users and selecting a random winner after the timer expires.</p>
+            <div class="command">/adjust-tab <user_id> <amount> - Adjust a user’s tab balance by a specified amount (requires Administrator).</div>
+            <p><strong>Parameters:</strong></p>
+            <ul>
+                <li><strong>user_id:</strong> The Discord ID of the user whose tab to adjust.</li>
+                <li><strong>amount:</strong> The amount to adjust (positive or negative), displayed with the server’s currency symbol (e.g., $10.00 or €10.00).</li>
+            </ul>
+            <p><strong>Example:</strong> `/adjust-tab 123456789012345678 10` increases User ID 123456789012345678’s tab by $10.00 (or the server’s currency, e.g., €10.00).</p>
+            <div class="command">/clear-tabs - Clear all tabs for this guild (requires Administrator).</div>
+            <p><strong>Notes:</strong> Removes all tab data for the server, resetting balances to zero.</p>
+            <div class="command">/pay-tab <user_id> - Mark a user’s tab as PAID (requires Administrator).</div>
+            <p><strong>Parameter:</strong></p>
+            <ul>
+                <li><strong>user_id:</strong> The Discord ID of the user whose tab to mark as paid.</li>
+            </ul>
+            <p><strong>Example:</strong> `/pay-tab 123456789012345678` marks User ID 123456789012345678’s tab as paid, removing their balance. The tab balance will display with the server’s currency symbol (e.g., $60.00 or €60.00).</p>
         </div>
         <div class="section" id="support">
             <h2>Support and Resources</h2>
             <p>Need help? Here’s how to get support:</p>
             <ul>
-                <li><strong>Contact Us:</strong> Email us at <a href="mailto:synqysell@gmail.com">synqysell@gmail.com</a>.</li>
+                <li><strong>Contact Us:</strong> Email us at <a href="mailto:synqysell@gmail.com">synqysell@gmail.com</a> or message Synqy#1234 on Discord.</li>
                 <li><strong>Terms of Service:</strong> Review our <a href="https://tos.synqysell.com">Terms of Service</a>.</li>
                 <li><strong>Privacy Policy:</strong> Check our <a href="https://privacy.synqysell.com">Privacy Policy</a>.</li>
             </ul>
